@@ -4,17 +4,12 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Home from "./Home";
 
 const router = createBrowserRouter([
   {
     path: "/:id?",
     element: <App />,
   },
-  // {
-  //   path: "/",
-  //   element: <App />,
-  // },
 ]);
 
 const root = ReactDOM.createRoot(

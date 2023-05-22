@@ -3,7 +3,7 @@ import "./main.css";
 import "./custom.css";
 import Events from "./components/Event";
 import { useQuery } from "react-query";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export interface EventProps {
   category: string;
@@ -27,10 +27,6 @@ function Home() {
   };
 
   const { data, status } = useQuery("events", fetcher);
-
-  useEffect(() => {
-    console.log(data);
-  }, [status]);
 
   return (
     <div className="container flex flex-wrap gap-8">
