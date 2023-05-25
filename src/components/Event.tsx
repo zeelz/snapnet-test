@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { EventProps } from "../Home";
 
 const Events: FC<EventProps> = ({ title, description, location, date }) => {

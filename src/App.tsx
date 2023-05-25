@@ -1,14 +1,16 @@
 import React from "react";
-import { QueryClient, QueryClientProvider } from "react-query";
 import Home from "./Home";
+import { Route, Routes } from "react-router";
 
 function App() {
-  const queryClient = new QueryClient();
-
   return (
-    <QueryClientProvider client={queryClient}>
-      <Home />
-    </QueryClientProvider>
+    <>
+      <Routes>
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/:id?" element={<Home />} />
+        {/** :id? makes param ?optional, so need for "/" */}
+      </Routes>
+    </>
   );
 }
 

@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import "./main.css";
 import "./custom.css";
 import Events from "./components/Event";
 import { useQuery } from "react-query";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export interface EventProps {
   category: string;
@@ -19,24 +19,31 @@ export interface EventProps {
 
 function Home() {
   const { pathname } = useLocation();
-  const url = `https://my-json-server.typicode.com/Code-Pop/Touring-Vue-Router/events`;
+  const url = `https://my-json-server.typicode.com/Code-Pop/Touring-Vue-Router/events/${pathname}`;
 
   const fetcher = async () => {
-    const res = await fetch(`${url + "/" + pathname}`);
+    const res = await fetch(url);
     return await res.json();
   };
 
-  const { data, status } = useQuery("events", fetcher);
+  const { data, status, refetch } = useQuery("events", fetcher, {
+    enabled: false,
+  });
+  // enable:false - no auto run, call refetch when you want it
+
+  useEffect(() => {
+    refetch();
+  }, [pathname, refetch]);
 
   return (
     <div className="container flex flex-wrap gap-8">
-      {status === "success" &&
-        (pathname === "/" ? (
+      {status === "success" ? (
+        pathname === "/" ? (
           data?.map((event: EventProps) => {
             return (
-              <a
+              <Link
                 key={event.id}
-                href={`/${String(event.id)}`}
+                to={`/${String(event.id)}`}
                 className="block w-[calc(80%-2rem)] md:w-[calc(50%-2rem)] lg:w-[calc(33.33%-2rem)] mx-auto bg-white rounded-xl shadow-lg hover:-translate-y-2 transition-all"
               >
                 <Events
@@ -50,7 +57,7 @@ function Home() {
                   time={event.time}
                   category={event.category}
                 />
-              </a>
+              </Link>
             );
           })
         ) : (
@@ -67,7 +74,10 @@ function Home() {
               category={data.category}
             />
           </div>
-        ))}
+        )
+      ) : (
+        status === "loading" && "loading..."
+      )}
     </div>
   );
 }
